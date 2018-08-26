@@ -4,6 +4,7 @@ public class BinaryTree {
 	// constructs and searches through binary trees
 
 	Node startNode;
+
 	BinaryTree(Node n) {
 		startNode = n;
 	}
@@ -14,7 +15,6 @@ public class BinaryTree {
 		Node currentNode = startNode;
 		boolean hasFoundSpot = false;
 		while (!hasFoundSpot) {
-			System.out.println(currentNode);
 			if (currentNode.hasChildren()) {
 				if (newNode.getData() > currentNode.getData()) {
 					// go to the right
@@ -27,35 +27,30 @@ public class BinaryTree {
 					Node temp = currentNode.getLeftNode();
 					currentNode = temp;
 				}
-			}
-			else {
+			} else {
 				// It has no children or one child.
-				// Check for the one child -- if it is further in the direction, add it below the child, if it isn't, add it as a child of the current term
-				if(currentNode.getLeftNode() != null) {
+				// Check for the one child -- if it is further in the direction, add it below
+				// the child, if it isn't, add it as a child of the current term
+				if (currentNode.getLeftNode() != null) {
 					// The left node exists
-					if(currentNode.getLeftNode().getData() > newNode.getData()) {
+					if (currentNode.getLeftNode().getData() > newNode.getData()) {
 						currentNode.getLeftNode().setLeftNode(newNode);
-					}
-					else {
+					} else {
 						currentNode.setRightNode(newNode);
 					}
-				}
-				else if(currentNode.getRightNode() != null) {
+				} else if (currentNode.getRightNode() != null) {
 					// The right node exists
-					if(currentNode.getRightNode().getData() <= newNode.getData()) {
+					if (currentNode.getRightNode().getData() <= newNode.getData()) {
 						currentNode.getRightNode().setRightNode(newNode);
-					}
-					else {
+					} else {
 						currentNode.setLeftNode(newNode);
 					}
-				}
-				else {
+				} else {
 					// No children
-					if(currentNode.getData() >= newNode.getData()) {
+					if (currentNode.getData() >= newNode.getData()) {
 						// Add it to the left
 						currentNode.setLeftNode(newNode);
-					}
-					else {
+					} else {
 						currentNode.setRightNode(newNode);
 					}
 				}
@@ -71,23 +66,35 @@ public class BinaryTree {
 			if (currentNode.hasAnyChildren()) {
 				System.out.println(i);
 				System.out.println(currentNode.getData());
-				if (i > currentNode.getData()) {
-					// go to the right
-					System.out.println("was greater");
-					Node temp = currentNode.getRightNode();
-					currentNode = temp;
-				} else if (i == currentNode.getData()) {
-					System.out.println("was equal");
-					return true;
-				} else {
-					System.out.println("was less");
-					// go to the left
-					Node temp = currentNode.getLeftNode();
-					currentNode = temp;
+				try {
+					if (i == currentNode.getData() || currentNode.getRightNode().getData() == i || currentNode.getLeftNode().getData() == i) {
+						return true;
+					} else if (i > currentNode.getData()) {
+						// go to the right
+						System.out.println("was greater");
+						Node temp = currentNode.getRightNode();
+						currentNode = temp;
+					} else {
+						System.out.println("was less");
+						// go to the left
+						Node temp = currentNode.getLeftNode();
+						currentNode = temp;
+					}
+					System.out.println("starting to look again");
+				} catch (NullPointerException e) {
+					if (i > currentNode.getData()) {
+						// go to the right
+						System.out.println("was greater");
+						Node temp = currentNode.getRightNode();
+						currentNode = temp;
+					} else {
+						System.out.println("was less");
+						// go to the left
+						Node temp = currentNode.getLeftNode();
+						currentNode = temp;
+					}
 				}
-				System.out.println("starting to look again");
-			}
-			else {
+			} else {
 				System.out.println("spot found");
 				hasFoundSpot = true;
 			}
